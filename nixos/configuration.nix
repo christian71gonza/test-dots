@@ -15,7 +15,7 @@
     # inputs.hardware.nixosModules.common-ssd
 
     # You can also split up your configuration and import pieces of it here:
-    # ./users.nix
+    ./alacritty.nix
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
@@ -135,12 +135,9 @@
         error_symbol = "[ ](bold red)";
         success_symbol = "[ ](bold green)";
         vicmd_symbol = "[ ](bold yellow)";
-        format = "$symbol [~](bold blue) [❯](bold red)[❯](bold yellow)[❯](bold green) ";
+        format = "$symbol [~](bold cyan) [❯](bold red)[❯](bold yellow)[❯](bold green) ";
       };
       git_commit = {commit_hash_length = 4;};
-      directory = {
-      format = "";
-      };
       line_break.disabled = false;
       lua.symbol = "[](blue) ";
       hostname = {
