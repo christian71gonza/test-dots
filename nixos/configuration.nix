@@ -1,85 +1,79 @@
-{ inputs, lib, config, pkgs, ... }: 
+# This is your system's configuration file.
+# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 
-let
-  alacrittyWrapper = import ./alacritty-wrapper.nix {
-    inherit (pkgs) lib makeWrapper alacritty writeText;
-  };
-in
 {
-  # Imports other modules (including hardware configuration)
+  inputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  # You can import other NixOS modules here
   imports = [
+    # If you want to use modules from other flakes (such as nixos-hardware):
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-ssd
+
+    # You can also split up your configuration and import pieces of it here:
+
+    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
   nixpkgs = {
-    overlays = [];
-    config.allowUnfree = true;
+    # You can add overlays here
+    overlays = [
+      # If you want to use overlays exported from other flakes:
+      # neovim-nightly-overlay.overlays.default
+
+      # Or define it inline, for example:
+      # (final: prev: {
+      #   hi = final.hello.overrideAttrs (oldAttrs: {
+      #     patches = [ ./change-hello-to-hi.patch ];
+      #   });
+      # })
+    ];
+
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+    };
   };
 
   nix = let
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
-    settings.experimental-features = "nix-command flakes";
+    settings = {
+      # Enable flakes and new 'nix' command
+      experimental-features = "nix-command flakes";
+
+      # Opinionated: disable global registry
+      flake-registry = "";
+
+      # Workaround for https://github.com/NixOS/nix/issues/9574
+      nix-path = config.nix.nixPath;
+    };
+
+    # Opinionated: disable channels
     channel.enable = false;
+
+    # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: { inherit flake; }) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  # Programs and system packages
-  programs = {
-    firefox.enable = true;
-    waybar.enable = true;
-    hyprland.enable = true;
+  # FIXME: Add the rest of your current configuration
 
-    zsh = {
-      enable = true;
-      syntaxHighlighting.enable = true;
-      autosuggestions.enable = true;
-      enableCompletion = true;
-    };
+  programs.firefox.enable = true;
+  programs.waybar.enable = true;
+  programs.hyprland.enable = true;
 
-    git = {
-      enable = true;
-      config = {
-        init.defaultBranch = "main";
-        safe.directory = "/home/user/.nix-dots";
-        user = {
-          email = "christian71gonza.les.4.878@gmail.com";
-          name = "christian71gonza";
-        };
-      };
-    };
-
-    starship = {
-      enable = true;
-      settings = {
-        add_newline = false;
-        scan_timeout = 5;
-        character = {
-          error_symbol = "[ ](bold red)";
-          success_symbol = "[ ](bold green)";
-          vicmd_symbol = "[ ](bold yellow)";
-          format = "$symbol [~](bold cyan) [❯](bold red)[❯](bold yellow)[❯](bold green)";
-        };
-        git_commit.commit_hash_length = 4;
-        line_break.disabled = false;
-        lua.symbol = "[](blue)";
-        hostname = {
-          ssh_only = true;
-          format = "[$hostname](bold blue)";
-          disabled = false;
-        };
-      };
-    };
-  };
-
-  # Graphics settings
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
 
-  # Boot settings
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
@@ -104,39 +98,82 @@ in
     };
   };
 
-  networking = {
-    networkmanager.enable = true;
-    hostName = "nixos";
-  };
+  networking.networkmanager.enable = true;
 
   time = {
     timeZone = "America/Montevideo";
     hardwareClockInLocalTime = true;
   };
 
-  users = {
-    defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh = {
+    enable = true;
+    syntaxHighlighting.enable = true;
+    autosuggestions.enable = true;
+    enableCompletion = true;
+  };
 
-    users = {
+  programs.git = {
+    enable = true;
+    config = {
+      init.defaultBranch = "main";
+      safe.directory = "/home/user/.nix-dots";
       user = {
-        isNormalUser = true;
-        extraGroups = [ "wheel" "networkmanager" ];
-
-        packages = with pkgs; [
-          kitty
-          hyprpaper
-          vim
-          pfetch
-          htop
-        ];
+        email = "christian71gonza.les.4.878@gmail.com";
+        name = "christian71gonza";
       };
     };
   };
 
-  # System packages
-  environment.systemPackages = with pkgs; [
-    alacrittyWrapper  # Add Alacritty wrapper here
-  ];
+  programs.starship = {
+    enable = true;
+    settings = {
+      add_newline = false;
+      scan_timeout = 5;
+      character = {
+        error_symbol = "[ ](bold red)";
+        success_symbol = "[ ](bold green)";
+        vicmd_symbol = "[ ](bold yellow)";
+        format = "$symbol [~](bold cyan) [❯](bold red)[❯](bold yellow)[❯](bold green) ";
+      };
+      git_commit = {commit_hash_length = 4;};
+      line_break.disabled = false;
+      lua.symbol = "[](blue) ";
+      hostname = {
+        ssh_only = true;
+        format = "[$hostname](bold blue) ";
+        disabled = false;
+      };
+    };
+  };
 
+  # TODO: Set your hostname
+  networking.hostName = "nixos";
+
+  # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
+  users.users = {
+    # FIXME: Replace with your username
+    user = {
+      isNormalUser = true;
+
+      # openssh.authorizedKeys.keys = [
+      #   # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+      # ];
+
+      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
+      extraGroups = [ "wheel" "networkmanager" ];
+
+      packages = with pkgs; [
+        kitty
+        hyprpaper
+        vim
+        alacritty
+	pfetch
+        htop
+      ];
+    };
+  };
+
+  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   system.stateVersion = "23.05";
 }
