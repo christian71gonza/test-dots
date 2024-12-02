@@ -1,23 +1,19 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
 
+{ inputs, lib, config, pkgs, ... }: 
+
+let
+  # Import the custom Alacritty wrapper
+  alacrittyWrapper = import ./alacritty-wrapper.nix {
+    inherit (pkgs) lib runCommand makeWrapper alacritty formats;
+  };
+in
 {
-  inputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: {
-  # You can import other NixOS modules here
+  # Imports other modules (including hardware configuration)
   imports = [
-    # If you want to use modules from other flakes (such as nixos-hardware):
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
-
-    # You can also split up your configuration and import pieces of it here:
-
-    # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+    # other imports can go here
   ];
 
   nixpkgs = {
@@ -147,6 +143,11 @@
     };
   };
 
+  # Define system packages
+  environment.systemPackages = with pkgs; [
+    alacrittyWrapper  # Alacritty wrapper will be available here
+  ];
+
   # TODO: Set your hostname
   networking.hostName = "nixos";
 
@@ -167,7 +168,7 @@
         kitty
         hyprpaper
         vim
-        alacritty
+#        alacritty
 	pfetch
         htop
       ];
