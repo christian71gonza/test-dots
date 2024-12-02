@@ -7,7 +7,15 @@
   config,
   pkgs,
   ...
-}: {
+}:
+
+let
+  alacrittyWrapper = import ./alacritty-wrapper.nix {
+    inherit (pkgs) makeWrapper alacritty symlinkJoin;
+  };
+in
+
+ {
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules from other flakes (such as nixos-hardware):
@@ -18,6 +26,11 @@
 
     # Import your generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
+  ];
+
+  # System packages
+  environment.systemPackages = with pkgs; [
+    alacrittyWrapper  # Add Alacritty wrapper here
   ];
 
   nixpkgs = {
@@ -167,7 +180,7 @@
         kitty
         hyprpaper
         vim
-        alacritty
+#        alacritty
 	pfetch
         htop
       ];
