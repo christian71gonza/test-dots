@@ -17,7 +17,7 @@
         specialArgs = { inherit inputs outputs; };
 
         # > Our main NixOS configuration file <
-        modules = [ ./hosts/nixos/system/default.nix  ];
+        modules = [ ./system/default.nix  ];
       };
     };
   };
