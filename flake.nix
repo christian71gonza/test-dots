@@ -1,23 +1,28 @@
 {
-  description = "Your new nix config";
+  description = "test config";
 
   inputs = {
-    # Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs = { self, nixpkgs, ... } @ inputs: let
+    user = import ./user;
+    pkgs = nixpkgs.legacyPackages.${builtins.currentSystem};
+
     inherit (self) outputs;
   in {
-    # NixOS configuration entrypoint
-    # Available through 'nixos-rebuild --flake .#your-hostname'
+    packages = user.packages pkgs;
+
+    formatter = pkgs.alejandra;
+
+    nixosModules = {
+      user = user.module;
+    };
+
     nixosConfigurations = {
-      # FIXME replace with your hostname
       nixos = nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs outputs; };
-
-        # > Our main NixOS configuration file <
-        modules = [ ./system/default.nix  ];
+        modules = [ ./system/default.nix ];
       };
     };
   };
