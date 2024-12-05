@@ -1,32 +1,28 @@
-{
-  pkgs,
-  ...
-}: let
-
+{pkgs, ...}: let
   config = pkgs.writeText "alacritty.toml" ''
     [window]
     padding.x = 20
     padding.y = 20
-    
+
     [font]
     size = 12.0
-    
+
     [font.bold]
     family = "monospace"
     style = "Bold"
-    
+
     [font.bold_italic]
     family = "monospace"
     style = "Bold Italic"
-    
+
     [font.italic]
     family = "monospace"
     style = "Italic"
-    
+
     [font.normal]
     family = "JetBrainsMono Nerd Font"
     style = "Regular"
-    
+
     [colors.bright]
     black = "#151720"
     blue = "#86aaec"
@@ -36,11 +32,11 @@
     red = "#dd6777"
     white = "#cbced3"
     yellow = "#ecd3a0"
-    
+
     [colors.cursor]
     cursor = "#a5b6cf"
     text = "CellForeground"
-    
+
     [colors.normal]
     black = "#1c1e27"
     blue = "#8baff1"
@@ -50,11 +46,11 @@
     red = "#e26c7c"
     white = "#d0d3d8"
     yellow = "#f1d8a5"
-    
+
     [colors.primary]
     background = "#0d0f18"
     foreground = "#a5b6cf"
-  ''; 
+  '';
 in
   pkgs.symlinkJoin {
     name = "alacritty-wrapped";
