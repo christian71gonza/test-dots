@@ -7,8 +7,9 @@
     ./users
     ./wayland
     ./nix
-    ./configuration.nix
   ];
+
+  networking.hostName = "nixos";
 
   time = {
     timeZone = "America/Montevideo";

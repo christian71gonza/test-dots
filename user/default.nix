@@ -2,6 +2,8 @@
 
   imports = [
     ./packages.nix
+    ./shell
+    ./git
   ];
 
 }

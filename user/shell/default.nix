@@ -1,17 +1,5 @@
-# This is your system's configuration file.
-# Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
+{ config, pkgs, ...  }: {
 
-{
-  config,
-  pkgs,
-  ...
-}: {
-
-  # FIXME: Add the rest of your current configuration
-
-  programs.firefox.enable = true;
-  programs.waybar.enable = true;
-  programs.hyprland.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
@@ -21,17 +9,6 @@
     enableCompletion = true;
   };
 
-  programs.git = {
-    enable = true;
-    config = {
-      init.defaultBranch = "main";
-      safe.directory = "/home/user/.nix-dots";
-      user = {
-        email = "christian71gonza.les.4.878@gmail.com";
-        name = "christian71gonza";
-      };
-    };
-  };
 
   programs.starship = {
     enable = true;
@@ -55,9 +32,5 @@
     };
   };
 
-  # TODO: Set your hostname
-  networking.hostName = "nixos";
 
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.05";
 }
