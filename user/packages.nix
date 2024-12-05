@@ -10,10 +10,11 @@
   };
 
   environment.systemPackages = with pkgs; [
+    (import ./alacritty.nix { inherit pkgs; })
     kitty
     hyprpaper
     vim
-    alacritty
+#    alacritty
     pfetch
     htop
     alejandra
