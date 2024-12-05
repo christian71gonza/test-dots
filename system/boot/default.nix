@@ -1,6 +1,8 @@
-{config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   boot.loader = {
     efi = {
       canTouchEfiVariables = true;
@@ -8,7 +10,7 @@
     };
 
     grub = {
-      devices = [ "nodev" ];
+      devices = ["nodev"];
       efiSupport = true;
       enable = true;
 

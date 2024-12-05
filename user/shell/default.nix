@@ -1,6 +1,8 @@
-{ config, pkgs, ...  }: {
-
-
+{
+  config,
+  pkgs,
+  ...
+}: {
   users.defaultUserShell = pkgs.zsh;
   programs.zsh = {
     enable = true;
@@ -8,7 +10,6 @@
     autosuggestions.enable = true;
     enableCompletion = true;
   };
-
 
   programs.starship = {
     enable = true;
@@ -31,6 +32,4 @@
       };
     };
   };
-
-
 }

@@ -6,7 +6,11 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs, ... } @ inputs: let
+  outputs = {
+    self,
+    nixpkgs,
+    ...
+  } @ inputs: let
     inherit (self) outputs;
   in {
     # NixOS configuration entrypoint
@@ -14,10 +18,10 @@
     nixosConfigurations = {
       # FIXME replace with your hostname
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs outputs; };
+        specialArgs = {inherit inputs outputs;};
 
         # > Our main NixOS configuration file <
-        modules = [ ./system/default.nix ./user/default.nix ];
+        modules = [./system/default.nix ./user/default.nix];
       };
     };
   };
