@@ -14,7 +14,12 @@
     kitty
     hyprpaper
     vim
+    volantes-cursors
     #    alacritty
+    neovim
+    wl-clipboard
+    gcc
+    ripgrep
     pfetch
     htop
     alejandra

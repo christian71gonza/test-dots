@@ -3,20 +3,21 @@
     [window]
     padding.x = 20
     padding.y = 20
+    opacity = 1
 
     [font]
     size = 12.0
 
     [font.bold]
-    family = "monospace"
+    family = "JetBrainsMono Nerd Font"
     style = "Bold"
 
     [font.bold_italic]
-    family = "monospace"
+    family = "JetBrainsMono Nerd Font"
     style = "Bold Italic"
 
     [font.italic]
-    family = "monospace"
+    family = "CartographCF Nerd Font"
     style = "Italic"
 
     [font.normal]
@@ -48,7 +49,7 @@
     yellow = "#f1d8a5"
 
     [colors.primary]
-    background = "#0d0f18"
+    background = "#101419"
     foreground = "#a5b6cf"
   '';
 in

@@ -17,4 +17,8 @@
       extraGroups = ["wheel" "networkmanager"];
     };
   };
+
+  environment.variables =  {
+    STARSHIP_LOG = "error";
+  };
 }
