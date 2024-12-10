@@ -16,7 +16,7 @@
       "rm" = "rm -r";
       "l" = "ls";
       "g" = "git";
-      "ga" = "git add";
+      "ga" = "git add .";
       "gco" = "git commit";
       "gu" = "git push";
       "n" = "nix";
