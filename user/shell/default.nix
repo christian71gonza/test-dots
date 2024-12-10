@@ -3,6 +3,36 @@
   pkgs,
   ...
 }: {
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh = {
+    shellAliases = {
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      "--" = "cd -";
+      "path" = "cd .dotfiles";
+      "q" = "exit";
+      "clr" = "clear";
+      "rm" = "rm -r";
+      "l" = "ls";
+      "g" = "git";
+      "ga" = "git add";
+      "gco" = "git commit";
+      "gu" = "git push";
+      "n" = "nix";
+      "gc" = "nix-collect-garbage";
+      "gcd" = "nix-collect-garbage -d";
+      "sync" = "sudo nixos-rebuild switch --flake . --show-trace";
+      "upd" = "nix flake update";
+      "v" = "nvim";
+    };
+    interactiveShellInit = "source ${pkgs.zsh-nix-shell}/share/zsh-nix-shell/nix-shell.plugin.zsh";
+    enable = true;
+    syntaxHighlighting.enable = true;
+    autosuggestions.enable = true;
+    enableCompletion = true;
+  };
+
   programs.starship = {
     enable = true;
     presets = [

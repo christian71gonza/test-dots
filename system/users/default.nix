@@ -18,7 +18,7 @@
     };
   };
 
-  environment.variables =  {
+  environment.variables = {
     STARSHIP_LOG = "error";
   };
 }

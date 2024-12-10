@@ -1,12 +1,14 @@
 {
   config,
   pkgs,
+  inputs,
   ...
 }: {
   programs = {
     firefox.enable = true;
     hyprland.enable = true;
     waybar.enable = true;
+    tmux.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -17,6 +19,7 @@
     volantes-cursors
     #    alacritty
     neovim
+    zsh-nix-shell
     wl-clipboard
     gcc
     ripgrep
