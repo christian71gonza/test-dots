@@ -5,7 +5,7 @@
 }: {
   imports = [
     ./net
-    ./disks
+    ./hardware
     ./boot
     ./audio
     ./users
