@@ -17,7 +17,7 @@
     style = "Bold Italic"
 
     [font.italic]
-    family = "CartographCF Nerd Font"
+    family = "JetBrainsMono Nerd Font"
     style = "Italic"
 
     [font.normal]
